@@ -73,7 +73,40 @@
 							<li>
 								<a href="@Url.Action("Index","Tiekejas")" class="@MarkActive("Tiekejas") nav-link">Tiekejai</a>
 							</li>
-						</ul>					
+						</ul>
+						
+						<ul class="navbar-nav justify-content-right mb-2 mb-lg-0">
+							<li class="nav-item dropdown">
+								<a
+									class="@MarkActive("Report") nav-link dropdown-toggle"
+									href="#"
+									id="navbarReports"
+									role="button"
+									data-bs-toggle="dropdown"
+									aria-expanded="false"
+								>
+									Ataskaitos
+								</a>
+								<ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarReports">
+									@* Reports links *@
+									<li>
+										<a
+											href="@Url.Action("Uzsakymai", "Reports")"
+											class="@MarkActive("Reports", "Uzsakymai") dropdown-item"
+										>
+											Sutarčių ataskaita
+										</a>
+									</li>
+									<li>
+										<a href="@Url.Action("PapildomiMokesciai", "Reports")"
+										   class="@MarkActive("Reports", "PapildomiMokesciai") dropdown-item"
+										>
+											Paslaugų ataskaita
+										</a>
+									</li>
+								</ul>
+							</li>
+						</ul>
 					</div>
 				</div>
 			</div>
