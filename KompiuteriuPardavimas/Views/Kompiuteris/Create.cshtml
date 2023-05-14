@@ -1,0 +1,168 @@
+﻿@model KompiuteriuPardavimas.Models.KompiuterisCE
+
+@* this will also be used as page title in main layout *@
+@{ ViewData["title"] = "Kompiuterio sukūrimas"; }
+
+@* content header *@
+<div class="main-content-header">
+	<span class="title">@ViewData["title"]</span>
+	<span class="actions">
+		<a 
+			href="@Url.Action("Index")" 
+			class="btn btn-outline-primary btn-sm"
+		>
+			<i class="fa-solid fa-angles-left"></i> Atgal į sarašą
+		</a>
+	</span>
+</div>
+
+@* content itself *@
+<div class="main-content-ced">
+@using( Html.BeginForm(FormMethod.Post, new { @class="entity-ce" }) )
+{
+	@Html.AntiForgeryToken()
+
+	@Html.ValidationSummary(false, "", new { @class = "text-danger" })
+
+	@* add hidden form fields for non-visible properties, otherwise they will get lost in code that handles button presses *@
+	@Html.HiddenFor(m => m.Kompiuteris.Id)
+	@Html.HiddenFor(m => m.Kompiuteris.FkUzsakymas)
+
+	<fieldset>
+		<legend class="text-center">Kompiuteris</legend>
+		<div class="form-group">
+			@Html.LabelFor(m => m.Kompiuteris.Pavadinimas)
+			@Html.EditorFor(m => m.Kompiuteris.Pavadinimas)
+			@Html.ValidationMessageFor(m => m.Kompiuteris.Pavadinimas, "")
+		</div>
+
+		<div class="form-group">
+			@Html.LabelFor(m => m.Kompiuteris.Procesorius)
+			@Html.EditorFor(m => m.Kompiuteris.Procesorius)
+			@Html.ValidationMessageFor(m => m.Kompiuteris.Procesorius, "")
+		</div>
+
+		<div class="form-group">
+			@Html.LabelFor(m => m.Kompiuteris.PagrindineAtmintis)
+			@Html.EditorFor(m => m.Kompiuteris.PagrindineAtmintis)
+			@Html.ValidationMessageFor(m => m.Kompiuteris.PagrindineAtmintis, "")
+		</div>
+
+		<div class="form-group">
+			@Html.LabelFor(m => m.Kompiuteris.VaizdoPlokste)
+			@Html.EditorFor(m => m.Kompiuteris.VaizdoPlokste)
+			@Html.ValidationMessageFor(m => m.Kompiuteris.VaizdoPlokste, "")
+		</div>
+
+		<div class="form-group">
+			@Html.LabelFor(m => m.Kompiuteris.MaitinimoBlokas)
+			@Html.EditorFor(m => m.Kompiuteris.MaitinimoBlokas)
+			@Html.ValidationMessageFor(m => m.Kompiuteris.MaitinimoBlokas, "")
+		</div>
+
+		<div class="form-group">
+			@Html.LabelFor(m => m.Kompiuteris.MotininesPlokstesTipas)
+			@Html.DropDownListFor(m => m.Kompiuteris.MotininesPlokstesTipas, Model.Lists.Motinines, (string)ViewData["none-chosen"])
+			@Html.ValidationMessageFor(m => m.Kompiuteris.MotininesPlokstesTipas, "")
+		</div>
+
+		<div class="form-group">
+			@Html.LabelFor(m => m.Kompiuteris.Korpusas)
+			@Html.DropDownListFor(m => m.Kompiuteris.Korpusas, Model.Lists.Korpusai, (string)ViewData["none-chosen"])
+			@Html.ValidationMessageFor(m => m.Kompiuteris.Korpusas)
+		</div>
+
+		<div class="form-group">
+			@Html.LabelFor(m => m.Kompiuteris.Ausinimas)
+			@Html.DropDownListFor(m => m.Kompiuteris.Ausinimas, Model.Lists.Ausinimai, (string)ViewData["none-chosen"])
+			@Html.ValidationMessageFor(m => m.Kompiuteris.Korpusas)
+		</div>
+	</fieldset>
+
+	<fieldset>
+		<legend class="text-center">Tiekejas</legend>
+		<div class="form-group">
+			@Html.LabelFor(m => Model.Lists.Tiekejai)
+			@Html.DropDownListFor(m => m.Kompiuteris.FkTiekejas, Model.Lists.Tiekejai, (string)ViewData["none-chosen"])
+			@Html.ValidationMessageFor(m => m.Kompiuteris.FkTiekejas, "")
+		</div>
+
+	</fieldset>
+
+    <fieldset>
+        <div class="container-fluid d-flex d-row justify-content-between align-items-center">
+            <span></span>
+            <legend style="width: unset; margin-bottom: 0px;">Kietasis diskas</legend>
+            <button name="add"
+                    value="1"
+                    formnovalidate @*ASP.NET Core magic attribute to prevent client side validation when submit button is clicked*@
+                    formaction="@Url.Action()#listEnd"
+                    class="btn btn-info">
+                <i class="fa-solid fa-plus"></i> Pridėti
+            </button>
+        </div>
+
+        <table>
+            <tbody>
+                @for( var i = 0; i < Model.KompiuterioKietiejiDiskai.Count; i++ ) {
+                <tr>
+                    <td class="form-group">
+                        @* add hidden form fields for non-visible properties, otherwise they will get lost in code that handles button presses *@
+                        @Html.HiddenFor(m => m.KompiuterioKietiejiDiskai[i].inListID)
+
+						<div class="form-group">
+							@Html.LabelFor(m => m.KompiuterioKietiejiDiskai[i].Gamintojas)
+							@Html.EditorFor(m => m.KompiuterioKietiejiDiskai[i].Gamintojas)
+							@Html.ValidationMessageFor(m => m.KompiuterioKietiejiDiskai[i].Gamintojas, "")
+						</div>
+
+						<div class="form-group">
+							@Html.LabelFor(m => m.KompiuterioKietiejiDiskai[i].Talpa)
+							@Html.EditorFor(m => m.KompiuterioKietiejiDiskai[i].Talpa)
+							@Html.ValidationMessageFor(m => m.KompiuterioKietiejiDiskai[i].Talpa, "")
+						</div>
+
+
+						<div class="form-group">
+							@Html.LabelFor(m => m.KompiuterioKietiejiDiskai[i].Tipas)
+							@Html.DropDownListFor(
+								m => m.KompiuterioKietiejiDiskai[i].Tipas,
+								Model.Lists.Atmintys,
+								(string)ViewData["none-chosen"]
+							)
+							@Html.ValidationMessageFor(m => m.KompiuterioKietiejiDiskai[i].Tipas, "")
+						</div>
+                    </td>
+
+                    <td>
+                        <button name="remove"
+                            value="@Model.KompiuterioKietiejiDiskai[i].inListID"
+                            formnovalidate @*ASP.NET Core magic attribute to prevent client side validation when submit button is clicked*@
+                            formaction="@Url.Action()#listEnd"
+                            class="btn btn-danger"
+                        ><i class="fa-solid fa-trash"></i> Šalinti</button>
+                    </td>
+                </tr>
+                }
+            </tbody>
+        </table>
+    </fieldset>
+
+	<div class="container-fluid d-flex d-row justify-content-end">
+		<button name="save" value="1" class="btn btn-success"><i class="fa-solid fa-floppy-disk"></i> Išsaugoti</button>
+	</div>
+}
+</div>
+
+@* content footer *@
+<div class="main-content-footer">
+	<span class="title"></span>
+	<span class="actions">
+		<a 
+			href="@Url.Action("Index")" 
+			class="btn btn-outline-primary btn-sm"
+		>
+			<i class="fa-solid fa-angles-left"></i> Atgal į sarašą
+		</a>
+	</span>
+</div>

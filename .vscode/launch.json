@@ -1,0 +1,18 @@
+{
+	"version": "0.2.0",
+	"configurations": [
+		{
+			"name": "Kompiuteriupardavimas",
+			"type": "coreclr",
+			"request": "launch",
+			"preLaunchTask": "build",
+			"program": "${workspaceFolder}/Kompiuteriupardavimas/bin/Debug/net6.0/Kompiuteriupardavimas.dll",
+			"args": [],
+			"cwd": "${workspaceFolder}/Kompiuteriupardavimas",
+			"stopAtEntry": false,			
+			"sourceFileMap": {
+				"/Views": "${workspaceFolder}/Views"
+			}
+		}
+	]
+}

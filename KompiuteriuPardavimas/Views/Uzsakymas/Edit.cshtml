@@ -1,0 +1,167 @@
+﻿@model KompiuteriuPardavimas.Models.UzsakymasCE
+
+@* this will also be used as page title in main layout *@
+@{ ViewData["title"] = "Užsakymo redagavimas"; }
+
+@* content header *@
+<div class="main-content-header">
+	<span class="title">@ViewData["title"]</span>
+	<span class="actions">
+		<a 
+			href="@Url.Action("Index")" 
+			class="btn btn-outline-primary btn-sm"
+		>
+			<i class="fa-solid fa-angles-left"></i> Atgal į sarašą
+		</a>
+	</span>
+</div>
+
+@* content itself *@
+<div class="main-content-ced">
+@using( Html.BeginForm(FormMethod.Post, new { @class="entity-ce" }) )
+{
+	@Html.AntiForgeryToken()
+
+	@Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+	@* add hidden form fields for non-visible properties, otherwise they will get lost in code that handles button presses *@
+	@Html.HiddenFor(m => m.Uzsakymas.Id)
+
+	<fieldset>
+		<legend class="text-center">Užsakymas</legend>
+
+		<div class="form-group">
+			@Html.LabelFor(m => m.Uzsakymas.UzsakymoData)
+			@Html.TextBoxFor(m => m.Uzsakymas.UzsakymoData, "{0:yyyy-MM-dd}", new { @class = "date-picker" })
+			@Html.ValidationMessageFor(m => m.Uzsakymas.UzsakymoData, "")
+		</div>
+
+		<div class="form-group">
+			@Html.LabelFor(m => m.Uzsakymas.FkDarbuotojas)
+            @Html.DropDownListFor(m => m.Uzsakymas.FkDarbuotojas, Model.Lists.Darbuotojai)
+			@Html.ValidationMessageFor(m => m.Uzsakymas.FkDarbuotojas, "")
+		</div>
+
+		<div class="form-group">
+			@Html.LabelFor(m => m.Uzsakymas.FkPirkejas)
+            @Html.DropDownListFor(m => m.Uzsakymas.FkPirkejas, Model.Lists.Klientai)
+			@Html.ValidationMessageFor(m => m.Uzsakymas.FkPirkejas, "")
+		</div>
+	</fieldset>
+
+    <fieldset>
+        <div class="container-fluid d-flex d-row justify-content-between align-items-center">
+            <span></span>
+            <legend style="width: unset; margin-bottom: 0px;">Kompiuteriai</legend>
+            <button name="add_komp"
+                    value="1"
+                    formnovalidate @*ASP.NET Core magic attribute to prevent client side validation when submit button is clicked*@
+                    formaction="@Url.Action()#listEnd"
+                    class="btn btn-info">
+                <i class="fa-solid fa-plus"></i> Pridėti
+            </button>
+        </div>
+
+        <table>
+            <thead>
+                <tr>Pavadinimas</tr>
+            </thead>
+            <tbody>
+                @for( var i = 0; i < Model.UzsakytiKompiuteriai.Count; i++ ) {
+                <tr>
+                    <td class="form-group">
+                        @* add hidden form fields for non-visible properties, otherwise they will get lost in code that handles button presses *@
+                        @Html.DropDownListFor( m => m.UzsakytiKompiuteriai[i].Pavadinimas, Model.Lists.Kompiuteriai)
+                        @Html.ValidationMessageFor(m => m.UzsakytiKompiuteriai[i].Pavadinimas, "")
+                    </td>
+
+                    <td>
+                        <button name="remove_komp"
+                            value="@Model.UzsakytiKompiuteriai[i].inListID"
+                            formnovalidate @*ASP.NET Core magic attribute to prevent client side validation when submit button is clicked*@
+                            formaction="@Url.Action()#listEnd"
+                            class="btn btn-danger"
+                        ><i class="fa-solid fa-trash"></i> Šalinti</button>
+                    </td>
+                </tr>
+                }
+            </tbody>
+        </table>
+    </fieldset>
+
+        <fieldset>
+            <div class="container-fluid d-flex d-row justify-content-between align-items-center">
+                <span></span>
+                <legend style="width: unset; margin-bottom: 0px;">Papildomi mokeščiai</legend>
+                <button name="add_papild"
+                        value="1"
+                        formnovalidate @*ASP.NET Core magic attribute to prevent client side validation when submit button is clicked*@
+                        formaction="@Url.Action()#listEnd"
+                        class="btn btn-info">
+                    <i class="fa-solid fa-plus"></i> Pridėti
+                </button>
+            </div>
+
+            <table>
+                <tbody>
+                    @for (var i = 0; i < Model.UzsakytiPapildomiMokesciai.Count; i++)
+                    {
+                        <tr>
+                            <td class="form-group">
+                                @* add hidden form fields for non-visible properties, otherwise they will get lost in code that handles button presses *@
+                                @Html.HiddenFor(m => m.UzsakytiPapildomiMokesciai[i].inListID)
+                                <div class="form-group">
+                                    @Html.DropDownListFor(
+                            m => m.UzsakytiPapildomiMokesciai[i].Pavadinimas,
+                            Model.Lists.Mokesciai
+                            )
+                                    @Html.ValidationMessageFor(m => m.UzsakytiPapildomiMokesciai[i].Pavadinimas, "")
+                                </div>
+
+                                <div class="form-group">
+                                    @Html.LabelFor(m => m.UzsakytiPapildomiMokesciai[i].Kaina)
+                                    @Html.TextBoxFor(m => m.UzsakytiPapildomiMokesciai[i].Kaina)
+                                    @Html.ValidationMessageFor(m => m.UzsakytiPapildomiMokesciai[i].Kaina, "")
+                                </div>
+
+                                <div class="form-group">
+                                    @Html.LabelFor(m => m.UzsakytiPapildomiMokesciai[i].Kiekis)
+                                    @Html.TextBoxFor(m => m.UzsakytiPapildomiMokesciai[i].Kiekis)
+                                    @Html.ValidationMessageFor(m => m.UzsakytiPapildomiMokesciai[i].Kiekis, "")
+                                </div>
+
+                            </td>
+
+                            <td>
+                                <button name="remove_papild"
+                                        value="@Model.UzsakytiPapildomiMokesciai[i].inListID"
+                                        formnovalidate @*ASP.NET Core magic attribute to prevent client side validation when submit button is clicked*@
+                                        formaction="@Url.Action()#listEnd"
+                                        class="btn btn-danger">
+                                    <i class="fa-solid fa-trash"></i> Šalinti
+                                </button>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </fieldset>
+
+	<div class="container-fluid d-flex d-row justify-content-end">
+		<button name="save" value="1" class="btn btn-success"><i class="fa-solid fa-floppy-disk"></i> Išsaugoti</button>
+	</div>
+}
+</div>
+
+@* content footer *@
+<div class="main-content-footer">
+	<span class="title"></span>
+	<span class="actions">
+		<a 
+			href="@Url.Action("Index")" 
+			class="btn btn-outline-primary btn-sm"
+		>
+			<i class="fa-solid fa-angles-left"></i> Back to list
+		</a>
+	</span>
+</div>

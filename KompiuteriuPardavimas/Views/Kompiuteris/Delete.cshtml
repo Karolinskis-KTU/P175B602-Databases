@@ -1,0 +1,91 @@
+﻿@model KompiuteriuPardavimas.Models.KompiuterisCE
+
+@* this will also be used as page title in main layout *@
+@{ ViewData["title"] = "Kompiuterio šalinimas"; }
+
+@* content header *@
+<div class="main-content-header">
+	<span class="title">@ViewData["title"]</span>
+	<span class="actions">
+		<a 
+			href="@Url.Action("Index")" 
+			class="btn btn-outline-primary btn-sm"
+		>
+			<i class="fa-solid fa-angles-left"></i> Atgal į sarašą
+		</a>
+	</span>
+</div>
+
+@* content itself *@
+<div class="main-content-ced">
+@using( Html.BeginForm(FormMethod.Post, new { @class="entity-d" }) )
+{
+	@Html.AntiForgeryToken()
+
+	<fieldset>
+		<legend class="confirm-msg">Ar tikrai norite šalinti šį kompiuterį?</legend>
+
+		<dl>
+			<dt>@Html.DisplayNameFor(m => m.Kompiuteris.Pavadinimas)</dt>
+			<dd>@Html.DisplayFor(m => m.Kompiuteris.Pavadinimas)</dd>
+
+			<dt>@Html.DisplayNameFor(m => m.Kompiuteris.Procesorius)</dt>
+			<dd>@Html.DisplayFor(m => m.Kompiuteris.Procesorius)</dd>
+
+			<dt>@Html.DisplayNameFor(m => m.Kompiuteris.VaizdoPlokste)</dt>
+			<dd>@Html.DisplayFor(m => m.Kompiuteris.VaizdoPlokste)</dd>
+
+			<dt>@Html.DisplayNameFor(m => m.Kompiuteris.MaitinimoBlokas)</dt>
+			<dd>@Html.DisplayFor(m => m.Kompiuteris.MaitinimoBlokas)</dd>
+
+			<dt>@Html.DisplayNameFor(m => m.Kompiuteris.FkTiekejas)</dt>
+			<dd>@Html.DisplayFor(m => m.Kompiuteris.FkTiekejas)</dd>
+
+			<dt>@Html.DisplayNameFor(m => m.Kompiuteris.FkUzsakymas)</dt>
+			<dd>@Html.DisplayFor(m => m.Kompiuteris.FkUzsakymas)</dd>
+
+			<dt>@Html.DisplayNameFor(m => m.Kompiuteris.MotininesPlokstesTipas)</dt>
+			<dd>@Html.DisplayFor(m => m.Kompiuteris.MotininesPlokstesTipas)</dd>
+
+			<dt>@Html.DisplayNameFor(m => m.Kompiuteris.MotininesPlokstesTipas)</dt>
+			<dd>@Html.DisplayFor(m => m.Kompiuteris.MotininesPlokstesTipas)</dd>
+
+			<dt>@Html.DisplayNameFor(m => m.Kompiuteris.Korpusas)</dt>
+			<dd>@Html.DisplayFor(m => m.Kompiuteris.Korpusas)</dd>
+
+			<dt>@Html.DisplayNameFor(m => m.Kompiuteris.Ausinimas)</dt>
+			<dd>@Html.DisplayFor(m => m.Kompiuteris.Ausinimas)</dd>
+		</dl>
+
+		@if( ViewData["deletionNotPermitted"] != null )
+		{
+			<div class="fail-msg">
+				<i class="fa-solid fa-circle-exclamation"></i> Šio kompiuterio pašalinti negalima, nes 
+				jis turi ryšių į priklausomas esybes.
+			</div>
+		}
+		else
+		{
+			<div class="buttons">
+				<button formaction="@Url.Action("DeleteConfirm", new {id = Model.Kompiuteris.Id})"
+					class="btn btn-danger"
+					style="white-space: nowrap;"
+				><i class="fa-solid fa-trash"></i> Šalinti</button>
+			</div>			
+		}
+	</fieldset>
+}
+</div>
+
+@* content footer *@
+<div class="main-content-footer">
+	<span class="title"></span>
+	<span class="actions">
+		<a 
+			href="@Url.Action("Index")" 
+			class="btn btn-outline-primary btn-sm"
+		>
+			<i class="fa-solid fa-angles-left"></i> Atgal į sarašą
+		</a>
+	</span>
+</div>

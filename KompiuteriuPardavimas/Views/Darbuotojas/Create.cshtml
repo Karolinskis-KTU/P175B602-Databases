@@ -1,0 +1,68 @@
+﻿@model KompiuteriuPardavimas.Models.DarbuotojasCE
+
+@* this will also be used as page title in main layout *@
+@{ ViewData["title"] = "Darbuotojo sukūrimas"; }
+
+@* content header *@
+<div class="main-content-header">
+	<span class="title">@ViewData["title"]</span>
+	<span class="actions">
+		<a 
+			href="@Url.Action("Index")" 
+			class="btn btn-outline-primary btn-sm"
+		>
+			<i class="fa-solid fa-angles-left"></i> Atgal į sarašą
+		</a>
+	</span>
+</div>
+
+@* content itself *@
+<div class="main-content-ced">
+@using( Html.BeginForm(FormMethod.Post, new { @class="entity-ce" }) )
+{
+	@Html.AntiForgeryToken()
+
+	@Html.ValidationSummary(false, "", new { @class = "text-danger" })
+
+	@* add hidden form fields for non-visible properties, otherwise they will get lost in code that handles button presses *@
+	@Html.HiddenFor(m => m.Darbuotojas.Kodas)
+	<fieldset>
+		<legend class="text-center">Darbuotojas</legend>
+
+		<div class="form-group">
+			@Html.LabelFor(m => m.Darbuotojas.Vardas)
+			@Html.EditorFor(m => m.Darbuotojas.Vardas)
+			@Html.ValidationMessageFor(m => m.Darbuotojas.Vardas, "")
+		</div>
+
+		<div class="form-group">
+			@Html.LabelFor(m => m.Darbuotojas.Pavarde)
+			@Html.EditorFor(m => m.Darbuotojas.Pavarde)
+			@Html.ValidationMessageFor(m => m.Darbuotojas.Pavarde, "")
+		</div>
+
+		<div class="form-group">
+			@Html.LabelFor(m => m.Darbuotojas.FkBiuras)
+			@Html.DropDownListFor(m => m.Darbuotojas.FkBiuras, Model.Lists.Biurai, (string)ViewData["none-chosen"])
+			@Html.ValidationMessageFor(m => m.Darbuotojas.FkBiuras, "")
+		</div>
+	</fieldset>
+
+	<div class="container-fluid d-flex d-row justify-content-end">
+		<button name="save" value="1" class="btn btn-success"><i class="fa-solid fa-floppy-disk"></i> Išsaugoti</button>
+	</div>
+}
+</div>
+
+@* content footer *@
+<div class="main-content-footer">
+	<span class="title"></span>
+	<span class="actions">
+		<a 
+			href="@Url.Action("Index")" 
+			class="btn btn-outline-primary btn-sm"
+		>
+			<i class="fa-solid fa-angles-left"></i> Atgal į sarašą
+		</a>
+	</span>
+</div>
