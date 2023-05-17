@@ -38,6 +38,8 @@
 		<thead>
 			<tr>
 				<th>@Html.DisplayNameFor(m => m.Uzsakymai[0].Nr)</th>
+				<th>@Html.DisplayNameFor(m => m.Uzsakymai[0].KompiuterioPavadinimas)</th>
+				<th>@Html.DisplayNameFor(m => m.Uzsakymai[0].KompiuterioProcesorius)</th>
 				<th>@Html.DisplayNameFor(m => m.Uzsakymai[0].UzsakymoData)</th>
 				<th>@Html.DisplayNameFor(m => m.Uzsakymai[0].Kaina)</th>
 				<th>@Html.DisplayNameFor(m => m.Uzsakymai[0].PapildomiMokesciaiKaina)</th>
@@ -61,7 +63,7 @@
 					{
 						<tr class="group-header">
 							<td 
-								colspan="4" 
+								colspan="6" 
 								align="center"
 							>
 								<b>@Html.DisplayFor(m => Model.Uzsakymai[i].Vardas) @Html.DisplayFor(m => Model.Uzsakymai[i].Pavarde)</b>
@@ -72,6 +74,8 @@
 					@* group content *@
 					<tr>
 						<td>#@Html.DisplayFor(m => Model.Uzsakymai[i].Nr)</td>
+						<td>@Html.DisplayFor(m => Model.Uzsakymai[i].KompiuterioPavadinimas)</td>
+						<td>@Html.DisplayFor(m => Model.Uzsakymai[i].KompiuterioProcesorius)</td>
 						<td>@Html.DisplayFor(m => Model.Uzsakymai[i].UzsakymoData)</td>
 						<td>@Html.DisplayFor(m => Model.Uzsakymai[i].Kaina)</td>
 						<td>@Html.DisplayFor(m => Model.Uzsakymai[i].PapildomiMokesciaiKaina)</td>
@@ -81,7 +85,7 @@
 					if( i == Model.Uzsakymai.Count-1 || Model.Uzsakymai[i].KlientoID != Model.Uzsakymai[i + 1].KlientoID )
 					{
 						<tr>
-							<td colspan="2"></td>
+							<td colspan="4"></td>
 							<td><b>@Html.DisplayFor(m => Model.Uzsakymai[i].BendraSuma)</b></td>
 							<td><b>@Html.DisplayFor(m => Model.Uzsakymai[i].BendraSumaPapMok)</b></td>
 						</tr>
@@ -90,11 +94,11 @@
 
 				@* grand total *@
 				<tr class="grand-total-header">
-					<td colspan="4" align="center"><b>Viso</b></td>
+					<td colspan="6" align="center"><b>Viso</b></td>
 				</tr>
 
 				<tr>
-					<td colspan="2"></td>
+					<td colspan="4"></td>
 					<td>
 						@Html.DisplayFor(m => Model.VisoSumaUzsakymu)
 					</td>

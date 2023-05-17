@@ -17,6 +17,8 @@ public class AtaskaitaRepo
 				klie.pavarde AS Pavarde,
 				klie.klient_d AS KlientoID,
 				sask.suma AS Kaina,
+				komp.pavadinimas AS KompiuterioPavadinimas,
+				komp.procesorius AS KompiuterioProcesorius,
 				SUM(papMok.kiekis*papMok.kaina) AS PapildomiMokesciaiKaina,
 				(
 					SELECT 
@@ -55,6 +57,7 @@ public class AtaskaitaRepo
 					LEFT JOIN `{Config.TblPrefix}klientai` klie ON klie.klient_d=uzs.fk_pirkejas
 					INNER JOIN `{Config.TblPrefix}saskaitos` sask ON sask.fk_UZSAKYMAS = uzs.uz_nr
 					LEFT JOIN `{Config.TblPrefix}papildomi_mokesciai` papMok ON papMok.fk_UZSAKYMAS=uzs.uz_nr
+					LEFT JOIN `{Config.TblPrefix}kompiuteriai` komp ON komp.fk_UZSAKYMAS=uzs.uz_nr
 				WHERE
 					uzs.uzsakymo_data >= IFNULL(?nuo, uzs.uzsakymo_data)
 					AND uzs.uzsakymo_data <= IFNULL(?iki, uzs.uzsakymo_data)
@@ -80,6 +83,8 @@ public class AtaskaitaRepo
 				t.PapildomiMokesciaiKaina = dre.From<decimal?>("PapildomiMokesciaiKaina");
 				t.BendraSumaPapMok = dre.From<decimal>("BendraSumaPapMok");
 				t.BendraSuma = dre.From<decimal>("BendraSuma");
+				t.KompiuterioPavadinimas = dre.From<string>("KompiuterioPavadinimas");
+				t.KompiuterioProcesorius = dre.From<string>("KompiuterioProcesorius");
 			});
 
 		return result;

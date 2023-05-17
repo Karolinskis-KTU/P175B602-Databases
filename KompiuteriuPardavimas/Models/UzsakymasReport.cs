@@ -30,6 +30,12 @@ public class Uzsakymas
 	public decimal BendraSuma { get; set; }
 
 	public decimal BendraSumaPapMok { get; set; }
+
+	[DisplayName("Kompiuterio pavadinimas")]
+	public string KompiuterioPavadinimas { get; set; }
+
+	[DisplayName("Kompiuterio procesorius")]
+	public string KompiuterioProcesorius { get; set; }
 }
 
 /// <summary>
